@@ -46,7 +46,7 @@
                         </div>
                         <div class="date-wrapper clearfix">
                             <hour-select v-bind:list="departures" v-model="departure_time"></hour-select>
-                            <div>@{{ departure_time }}</div>
+                           
                         </div>
 
                     </div>

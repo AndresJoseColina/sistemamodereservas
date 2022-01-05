@@ -20,3 +20,4 @@ yarn-error.log
 /resources/admin/scss/css
 /storage/installed
 composer.lock
+server.php
