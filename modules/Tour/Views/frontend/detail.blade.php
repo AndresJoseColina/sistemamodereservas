@@ -113,9 +113,11 @@
                 no_date_select:'{{__('Please select Start date')}}',
                 no_guest_select:'{{__('Please select at least one guest')}}',
                 load_dates_url:'{{route('tour.vendor.availability.loadDates')}}',
+                get_hours_url:'{{route('tour.vendor.availability.getHours')}}',
                 name_required:'{{ __("Name is Required") }}',
                 email_required:'{{ __("Email is Required") }}',
             };
+        console.log(bravo_booking_data);
     </script>
     <script type="text/javascript" src="{{ asset("libs/ion_rangeslider/js/ion.rangeSlider.min.js") }}"></script>
     <script type="text/javascript" src="{{ asset("libs/fotorama/fotorama.js") }}"></script>

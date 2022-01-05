@@ -39,6 +39,12 @@
                             {{human_time_diff($booking->end_date,$booking->start_date)}}
                         </div>
                     </li>
+                    <li>
+                        <div class="label">{{__('Departure:')}}</div>
+                        <div class="val">
+                            {{ $booking->departure_time}}
+                        </div>
+                    </li>
                 @endif
                 @php $person_types = $booking->getJsonMeta('person_types')@endphp
                 @if(!empty($person_types))

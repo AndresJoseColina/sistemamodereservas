@@ -68,36 +68,38 @@
                                 <input readonly type="text" class="form-control has-daterangepicker">
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label >{{__('Horários ida')}}</label>
-                                <input type="number"  v-model="form.horario_ida" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label >{{__('Horários Voltando')}}</label>
-                                <input type="number"  v-model="form.horario_volta" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
+
+                        <div class="col-sm">
                             <div class="form-group">
                                 <label >{{__('Status')}}</label>
                                 <br>
                                 <label ><input true-value=1 false-value=0 type="checkbox" v-model="form.active"> {{__('Available for booking?')}}</label>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-sm">
                             <div class="form-group">
                                 <label >{{__('Max Guest')}}</label>
                                 <input type="number"  v-model="form.max_guests" class="form-control">
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label >{{__('Horários')}}</label>
-                                <input type="number"  v-model="form.horario_ida" class="form-control">
+                        <div class="col-md-12">
+                            <div class="row" >
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >{{__('Departure Time')}}</label>
+                                        <select name="departure_time[]" id="departure_time" v-bind:multiple="form.departure_time" class="horario form-control" multiple="multiple" style="width: 100%" ></select>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >{{__('Return Time')}}</label>
+                                        <select name="return_time[]" id="return_time"  v-bind:multiple="form.return_time" class="horario form-control" multiple="multiple" style="width: 100%" ></select>
+                                        
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                         <div class="" v-if="person_types">
                             <div class="col-md-12" v-for="(type,index) in person_types">
@@ -148,6 +150,7 @@
     <link rel="stylesheet" href="{{asset('libs/fullcalendar-4.2.0/core/main.css')}}">
     <link rel="stylesheet" href="{{asset('libs/fullcalendar-4.2.0/daygrid/main.css')}}">
     <link rel="stylesheet" href="{{asset('libs/daterange/daterangepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('libs/select2/css/select2.min.css')}}">
 
     <style>
         .event-name{
@@ -167,6 +170,24 @@
     <script src="{{asset('libs/fullcalendar-4.2.0/core/main.js')}}"></script>
     <script src="{{asset('libs/fullcalendar-4.2.0/interaction/main.js')}}"></script>
     <script src="{{asset('libs/fullcalendar-4.2.0/daygrid/main.js')}}"></script>
+    <script src="{{asset('libs/select2/js/select2.min.js')}}"></script>
+
+    <script>
+
+        function getTimeList() {
+
+            var quarterHours = ["00", "15", "30", "45"];
+            var times = [];
+            for(var i = 0; i < 24; i++){
+                for(var j = 0; j < 4; j++){
+                    // Using slice() with negative index => You get always (the last) two digit numbers.
+                    times.push( ('0' + i).slice(-2) + ":" + quarterHours[j] );
+                }
+            }
+            return times;
+        }
+
+    </script>
 
     <script>
 		var calendarEl,calendar,lastId,formModal;
@@ -209,7 +230,58 @@
 					var form = Object.assign({},info.event.extendedProps);
                     form.start_date = moment(info.event.start).format('YYYY-MM-DD');
                     form.end_date = moment(info.event.start).format('YYYY-MM-DD');
-                    console.log(form);
+                    //console.log(form);
+
+
+                    $('.horario').val(null).trigger("change");
+                    $('.horario').empty();
+                    
+                    var time_list = getTimeList();
+                    var departure_time = [];
+                    var return_time = [];
+                    if(form.departure_time != null){
+
+                        var horas_almacenadas = form.departure_time.split(",").map(function(item) {
+                            return item.trim();
+                        });
+                        for(var i=0; i < time_list.length; i++){
+                            var hora = {};
+                            var selected = false;
+                            var exist = $.inArray(time_list[i].trim(), horas_almacenadas);
+                            if(exist != -1){
+                                selected = true;
+                            }
+                            hora = {'id': i, 'text': time_list[i], 'selected': selected };
+                            departure_time.push(hora);                            
+                        }
+                        $('#departure_time').select2({ data : departure_time});
+                    }
+                    
+                    else{
+                        $('#departure_time').select2({ data : time_list});
+                    }
+                    
+                    if(form.return_time != null){
+                    var horas_almacenadas = form.return_time.split(",").map(function(item) {
+                        return item.trim();
+                    });
+
+                    for(var i=0; i < time_list.length; i++){
+                        var hora = {};
+                        var selected = false;
+                        var exist = $.inArray(time_list[i].trim(), horas_almacenadas);
+                        if(exist != -1){
+                            selected = true;
+                        }
+                        hora = {'id': i, 'text': time_list[i], 'selected': selected };
+                        return_time.push(hora);                            
+                    }
+                        $('#return_time').select2({ data : return_time});
+                    }
+                    else{
+                        $('#return_time').select2({ data : time_list});
+                    }
+                    
                     formModal.show(form);
                 },
                 eventRender: function (info) {
@@ -236,8 +308,8 @@
                     end_date:'',
                     min_guests:0,
                     max_guests:0,
-                    horario_ida:'',
-                    horario_volta:'',
+                    departure_time:[],
+                    return_time:[],
                     active:0
                 },
                 formDefault:{
@@ -298,6 +370,10 @@
 
                     this.onSubmit = true;
                     this.form.person_types = this.person_types;
+
+                    this.form.departure_time = $("#departure_time option:selected").map(function(){ return this.text }).get().join(", ");
+                    this.form.return_time = $("#return_time option:selected").map(function(){ return this.text }).get().join(", ");
+
                     $.ajax({
                         url:'{{route('tour.admin.availability.store')}}',
                         data:this.form,

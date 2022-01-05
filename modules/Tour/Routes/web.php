@@ -28,6 +28,7 @@ Route::group(['prefix'=>'user/'.config('tour.tour_route_prefix')],function(){
         Route::get('/','AvailabilityController@index')->name('tour.vendor.availability.index');
         Route::get('/loadDates','AvailabilityController@loadDates')->name('tour.vendor.availability.loadDates');
         Route::post('/store','AvailabilityController@store')->name('tour.vendor.availability.store');
+        Route::get('/getHours','AvailabilityController@getHours')->name('tour.vendor.availability.getHours');
     });
 });
 // Tour

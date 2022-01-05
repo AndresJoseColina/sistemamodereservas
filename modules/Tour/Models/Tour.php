@@ -268,6 +268,7 @@ class Tour extends Bookable
 
     public function addToCart(Request $request)
     {
+        //dd($request);
         $res = $this->addToCartValidate($request);
         if ($res !== true)
             return $res;
@@ -389,12 +390,14 @@ class Tour extends Bookable
         $booking->start_date = $start_date->format('Y-m-d H:i:s');
         $start_date->modify('+ ' . max(1, $this->duration) . ' hours');
         $booking->end_date = $start_date->format('Y-m-d H:i:s');
-
+        $booking->departure_time = $request->input('departure');
         $booking->vendor_service_fee_amount = $total_service_fee ?? '';
         $booking->vendor_service_fee = $list_service_fee ?? '';
         $booking->buyer_fees = $list_buyer_fees ?? '';
         $booking->total_before_fees = $total_before_fees;
         $booking->total_before_discount = $total_before_fees;
+
+        //dd($booking);
 
         $booking->calculateCommission();
         if ($this->isDepositEnable()) {

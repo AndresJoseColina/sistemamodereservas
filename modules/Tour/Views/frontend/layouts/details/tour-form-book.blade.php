@@ -37,6 +37,19 @@
                         </div>
                         <input type="text" class="start_date" ref="start_date" style="height: 1px; visibility: hidden">
                     </div>
+                    <div class="form-group form-date-field form-date-search clearfix ">
+                            
+                        <div class="date-wrapper clearfix">
+                            <div class="check-in-wrapper">
+                                <label>{{__("Departure Time")}}</label>
+                            </div>
+                        </div>
+                        <div class="date-wrapper clearfix">
+                            <hour-select v-bind:list="departures" v-model="departure_time"></hour-select>
+                            <div>@{{ departure_time }}</div>
+                        </div>
+
+                    </div>
                     <div class="" v-if="person_types">
                         <div class="form-group form-guest-search" v-for="(type,index) in person_types">
                             <div class="guest-wrapper d-flex justify-content-between align-items-center">

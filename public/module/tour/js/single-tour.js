@@ -1,4 +1,23 @@
 (function ($) {
+    Vue.component('hour-select', {
+        props:['list'],
+        data: function(){
+            return {
+                time:undefined
+            }
+        },
+        watch:{
+            time(newValue){
+                
+                this.$emit('input', newValue)
+            }
+        },
+        template:`
+            <select class="form-control" v-model="time">
+                <option v-for="item in list">{{item}}</option>
+            </select>
+        `            
+    });
     new Vue({
         el:'#bravo_tour_book_app',
         data:{
@@ -13,6 +32,9 @@
             onSubmit:false,
             start_date:'',
             start_date_html:'',
+            departures:[],
+            departure_time:undefined,
+            return:[],
             step:1,
             guests:1,
             price:0,
@@ -68,6 +90,32 @@
                         me.price = parseFloat(item.price);
                     }
                 }
+                datef = ($('.start_date').val()).split('/');
+                newdate = datef[2] + '-' + datef[0] + '-' + datef[1];
+                var data = {
+                    start: newdate,
+                    id:bravo_booking_data.id,
+                };
+                $.ajax({
+                    url: bravo_booking_i18n.get_hours_url,
+                    dataType:"json",
+                    type:'get',
+                    data:data,
+                    async: false,
+                    success:function (response) {
+                        var departures_time = response.departure_time.split(",").map(function(item) { return item.trim() });
+                        var returnes_time = response.return_time.split(",").map(function(item) { return item.trim()  });
+
+                        me.departures = departures_time;
+                    },
+                    error:function (e) { 
+                        console.log(e);
+                        me.departures = ['Not Availability'];
+                        console.log("Not availability");
+                        
+                    }
+                });
+
             },
         },
         computed:{
@@ -246,6 +294,7 @@
                     .on('update-calendar',function (e,obj) {
                         me.fetchEvents(obj.leftCalendar.calendar[0][0], obj.leftCalendar.calendar[5][6])
                     });
+                
             });
         },
         methods:{
@@ -342,6 +391,7 @@
                         service_id:this.id,
                         service_type:'tour',
                         start_date:this.start_date,
+                        departure: this.departure_time,
                         person_types:this.person_types,
                         extra_price:this.extra_price,
                         guests:this.guests

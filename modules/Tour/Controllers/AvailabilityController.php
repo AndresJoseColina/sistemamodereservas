@@ -275,6 +275,28 @@ class AvailabilityController extends FrontendController
         return response()->json($data);
     }
 
+    public function getHours(Request $request){
+        $rules = [
+            'id'    => 'required',
+            'start' => 'required',
+        ];
+        $validator = \Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors());
+        }
+        $tour = $this->tourClass::find($request->query('id'));
+        if (empty($tour)) {
+            return $this->sendError(__('Tour not found'));
+        }
+        $lang = app()->getLocale();
+        $query = $this->tourDateClass::query();
+        $query->where('target_id', $request->query('id'));
+        $query->where('start_date', '=', date('Y-m-d H:i:s', strtotime($request->query('start'))));
+        $row = $query->first();
+
+        return response($row);
+    }
+
     public function store(Request $request)
     {
 
@@ -318,8 +340,8 @@ class AvailabilityController extends FrontendController
                 'end_date',
                 'price',
                 'max_guests',
-                'horario_ida',
-                'horario_volta',
+                'departure_time',
+                'return_time',
                 'active',
                 'person_types'
             ], $postData);
