@@ -344,6 +344,12 @@
                     this.message.content = bravo_booking_i18n.no_date_select;
                     return false;
                 }
+                if(!this.departure_time)
+                {
+                    this.message.status = false;
+                    this.message.content = bravo_booking_i18n.no_departure_time;
+                    return false;
+                }
                 return true;
             },
             addPersonType(type){

@@ -48,6 +48,32 @@
                         <div class="label">{{__('Special Requirements')}}</div>
                         <div class="val">{{$booking->customer_notes}}</div>
                     </li>
+                    <li class="info-guests">
+                        <div class="label">{{__('Guests Names')}}</div>
+                        <div class="val">
+                            <?php
+                                $guests = json_decode($booking->guests_names, true);
+                                $inv = '';
+                                if($booking->total_guests == 1 ){
+                                    if($guests != null){
+                                        $inv = $guests['Name'];
+                                    }
+                                   
+                                }
+                                else{
+                                   
+                                    if($guests != null){
+                                        foreach($guests as $guest){
+
+                                            $inv .= $guest['Name'].', ';
+                                         }
+                                         $inv = substr($inv, 0, -2);
+                                    }
+                                }
+                            ?>
+                           {{$inv}}
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>

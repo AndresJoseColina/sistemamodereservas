@@ -71,6 +71,31 @@
                 <label >{{__("Special Requirements")}} </label>
                 <textarea name="customer_notes" cols="30" rows="6" class="form-control" placeholder="{{__('Special Requirements')}}"></textarea>
             </div>
+            @if($booking->total_guests > 1)
+                @for($i = 0; $i < $booking->total_guests; $i++)
+                    @if($i == 0)
+                        <div class="col-md-12">
+                            <label for="">{{__("Guest Name " . $i+1 )}}</label>
+                            <input type="text" class="form-control" value="{{$user->first_name.' '.$user->last_name ?? ''}}" name="guests{{$i}}" readonly="true">
+                        </div>
+                    @else
+                        <div class="col-md-12">
+                            <label for="">{{__("Guest Name " . $i+1 )}} <span class="required">*</span></label>
+                            <input type="text" class="form-control" value="" name="guests{{$i}}" placeholder="{{__("Guest Name")}}">
+                        </div>
+
+                    @endif
+                
+                @endfor
+            @else
+                <div class="col-md-12">
+                    <label for="">{{__("Guest Name 1")}}</label>
+                    <input type="text" class="form-control" value="{{$user->first_name.' '.$user->last_name ?? ''}}" name="guests0" readonly="true">
+                </div>
+            <input type="hidden" value="{{$booking->total_guests}}" name="total_guests">
+            @endif
+            <pre>
+        </pre>
         </div>
     </div>
     

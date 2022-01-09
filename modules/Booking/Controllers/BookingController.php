@@ -51,7 +51,7 @@ class BookingController extends \App\Http\Controllers\Controller
             abort(404);
         }
         return true;
-    }
+    } 
 
     public function checkout($code)
     {
@@ -150,6 +150,8 @@ class BookingController extends \App\Http\Controllers\Controller
 
         $booking = $this->bookingInst;
 
+        //dd($this->bookingInst);
+
         if ( !in_array($booking->status , ['draft','unpaid'])) {
             return $this->sendError('',[
                 'url'=>$booking->getDetailUrl()
@@ -237,6 +239,35 @@ class BookingController extends \App\Http\Controllers\Controller
         $booking->wallet_total_used = floatval($wallet_total_used);
         $booking->pay_now = floatval($booking->deposit == null ? $booking->total : $booking->deposit);
 
+
+        
+
+        if($booking->total_guests > 1){
+            $guests = [];
+
+            for($i = 0; $i < $booking->total_guests; $i++){
+
+                $guest_rules = [
+                    'guests'.$i      => 'required|string|max:255',
+                ];
+                $rules = $service->filterCheckoutValidate($request, $guest_rules);
+
+                $guest = [
+                    'Guest_Number' => $i+1,
+                    'Name' => $request->input('guests'.$i),
+                ];
+                array_push($guests, $guest);
+            }
+            
+           $booking->guests_names = json_encode($guests);
+        }
+        else{
+            $guest = [
+                'Guest_Number' => 1,
+                'Name' => $request->input('guests0'),
+            ];
+            $booking->guests_names = json_encode($guest);
+        }
         // If using credit
         if($booking->wallet_total_used > 0){
             if($how_to_pay == 'full'){

@@ -16,12 +16,13 @@
                     </div>
                     <div class="col-md-4">
                         <div class="booking-detail booking-form">
-                            @include ($service->checkout_booking_detail_file ?? '')
+                            @include ($service->checkout_booking_detail_file ?? '') 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
     </div>
 @endsection
 @section('footer')

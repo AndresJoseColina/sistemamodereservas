@@ -111,6 +111,7 @@
         var bravo_booking_data = {!! json_encode($booking_data) !!}
         var bravo_booking_i18n = {
                 no_date_select:'{{__('Please select Start date')}}',
+                no_departure_time:'{{__('Please select Departure time')}}',
                 no_guest_select:'{{__('Please select at least one guest')}}',
                 load_dates_url:'{{route('tour.vendor.availability.loadDates')}}',
                 get_hours_url:'{{route('tour.vendor.availability.getHours')}}',
