@@ -1,6 +1,7 @@
 <div class="form-checkout" id="form-checkout" >
     <input type="hidden" name="code" value="{{$booking->code}}">
     <div class="form-section">
+        
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -71,10 +72,29 @@
                 <label >{{__("Special Requirements")}} </label>
                 <textarea name="customer_notes" cols="30" rows="6" class="form-control" placeholder="{{__('Special Requirements')}}"></textarea>
             </div>
+            <?php
+            //dd($booking->service->meta->custom_fields);
+            ?>
+            @if($booking->service->meta->custom_fields)
+                <div class="col-md-12">
+                    <br>
+                    <label >{{__("Aditional required info")}} </label>
+                    <br>
+                    @foreach($booking->service->meta->custom_fields as $key)
+                        <input type="text" name="custom_fields_data[{{ $key['name'] }}][value]" value="" class="form-control" placeholder="{{ $key['name'].' is required' }}"><br>
+                        
+                    @endforeach
+                    
+                </div>
+
+                
+            @endif
             @if($booking->total_guests > 1)
                 @for($i = 0; $i < $booking->total_guests; $i++)
                     @if($i == 0)
+                        
                         <div class="col-md-12">
+                            <br>
                             <label for="">{{__("Guest Name " . $i+1 )}}</label>
                             <input type="text" class="form-control" value="{{$user->first_name.' '.$user->last_name ?? ''}}" name="guests{{$i}}" readonly="true">
                         </div>

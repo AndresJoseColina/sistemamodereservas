@@ -64,6 +64,7 @@
                         </div>
                         <div class="tab-pane fade" id="nav-attribute">
                             @include('Tour::admin/tour/attributes')
+                            @include('Tour::admin/tour/custom-fields')
                         </div>
                         <div class="tab-pane fade" id="nav-ical">
                             @include('Tour::admin/tour/ical')

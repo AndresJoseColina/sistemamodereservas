@@ -16,6 +16,7 @@ use Modules\Core\Models\Terms;
 use Modules\Location\Models\Location;
 use Modules\Review\Models\Review;
 use Modules\Tour\Models\TourTerm;
+use Modules\Tour\Models\TourMeta;
 use Modules\Media\Helpers\FileHelper;
 use Illuminate\Support\Facades\Cache;
 use Validator;

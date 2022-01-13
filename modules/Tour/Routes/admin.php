@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/','TourController@index')->name('tour.admin.index');
 Route::get('/create','TourController@create')->name('tour.admin.create');
 Route::get('/edit/{id}','TourController@edit')->name('tour.admin.edit');
-Route::post('/store/{id}','TourController@store')->name('tour.admin.store');
+Route::post('/store/{id}','TourController@store')->name('tour.admin.store'); 
 Route::get('/getForSelect2','TourController@getForSelect2')->name('tour.admin.getForSelect2');
 Route::post('/bulkEdit','TourController@bulkEdit')->name('tour.admin.bulkEdit');
 Route::get('/recovery','TourController@recovery')->name('tour.admin.recovery');

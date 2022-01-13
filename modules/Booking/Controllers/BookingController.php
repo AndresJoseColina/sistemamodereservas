@@ -239,8 +239,25 @@ class BookingController extends \App\Http\Controllers\Controller
         $booking->wallet_total_used = floatval($wallet_total_used);
         $booking->pay_now = floatval($booking->deposit == null ? $booking->total : $booking->deposit);
 
+        foreach($request->input('custom_fields_data') as $key=>$value){
 
-        
+            if(!empty($value['value'])== null){
+                $custom_fields_rules = [
+                    $key     => 'required|string|max:255',
+                ];
+                $custom_rules = $service->filterCheckoutValidate($request, $custom_fields_rules);
+                $messages = [
+                    $key    => __(' is required field'),
+                ];
+                $validator = Validator::make($request->input('custom_fields_data')[$key], $custom_rules , $messages );
+                    if ($validator->fails()) {
+                        return $this->sendError('', ['errors' => $validator->errors()]);
+                    }
+                dd($key);
+            }            
+        }
+
+        $booking->custom_fields_data = json_encode($request->input('custom_fields_data'));
 
         if($booking->total_guests > 1){
             $guests = [];
@@ -251,6 +268,17 @@ class BookingController extends \App\Http\Controllers\Controller
                     'guests'.$i      => 'required|string|max:255',
                 ];
                 $rules = $service->filterCheckoutValidate($request, $guest_rules);
+
+                if (!empty($rules)) {
+                    $messages = [
+                        'guest.required'    => __('Guests is required field'),
+                        
+                    ];
+                    $validator = Validator::make($request->all(), $rules , $messages );
+                    if ($validator->fails()) {
+                        return $this->sendError('', ['errors' => $validator->errors()]);
+                    }
+                }
 
                 $guest = [
                     'Guest_Number' => $i+1,
@@ -268,7 +296,7 @@ class BookingController extends \App\Http\Controllers\Controller
             ];
             $booking->guests_names = json_encode($guest);
         }
-        // If using credit
+        
         if($booking->wallet_total_used > 0){
             if($how_to_pay == 'full'){
                 $booking->deposit = 0;

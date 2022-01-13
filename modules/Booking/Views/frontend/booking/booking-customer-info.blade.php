@@ -74,6 +74,17 @@
                            {{$inv}}
                         </div>
                     </li>
+                    <?php
+                        $fields = json_decode($booking->custom_fields_data);
+                    ?>
+                    @if($fields)
+                        @foreach( $fields as $key=>$value )
+                            <li>
+                                <div class="label">{{ $key }}</div>
+                                <div class="val">{{ $value->value }}</div>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>

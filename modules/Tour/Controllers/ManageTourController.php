@@ -169,6 +169,7 @@ class ManageTourController extends FrontendController
 
     public function store(Request $request, $id)
     {
+        //dd('update');
         if ($id > 0) {
             $this->checkPermission('tour_update');
             $row = $this->tourClass::find($id);

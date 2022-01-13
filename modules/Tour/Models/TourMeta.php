@@ -15,6 +15,8 @@ class TourMeta extends BaseModel
         'enable_open_hours',
         'open_hours',
         'discount_by_people',
+        'enable_custom_fields',
+        'custom_fields',
     ];
     /**
      * The attributes that should be casted to native types.
@@ -26,6 +28,7 @@ class TourMeta extends BaseModel
         'extra_price'        => 'array',
         'open_hours'         => 'array',
         'discount_by_people' => 'array',
+        'custom_fields' => 'array',
     ];
 
     public function fill(array $attributes)

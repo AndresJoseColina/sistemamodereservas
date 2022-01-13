@@ -1,4 +1,4 @@
-<div class="panel">
+<div class="panel"> 
     <div class="panel-title"><strong>{{__("Tour Content")}}</strong></div>
     <div class="panel-body">
         <div class="form-group">

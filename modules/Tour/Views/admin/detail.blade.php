@@ -28,6 +28,7 @@
                         @include('Tour::admin/tour/tour-content')
                         @include('Tour::admin/tour/tour-location')
                         @include('Hotel::admin.hotel.surrounding')
+                        @include('Tour::admin/tour/custom-fields')
 
                     @if(is_default_lang())
                             @include('Tour::admin/tour/pricing')

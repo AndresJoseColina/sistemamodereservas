@@ -10,6 +10,7 @@ use Modules\Core\Models\Attributes;
 use Modules\Location\Models\LocationCategory;
 use Modules\Tour\Models\TourTerm;
 use Modules\Tour\Models\Tour;
+//use Modules\Tour\Models\TourMeta;
 use Modules\Tour\Models\TourCategory;
 use Modules\Tour\Models\TourTranslation;
 use Modules\Location\Models\Location;
@@ -35,6 +36,7 @@ class TourController extends AdminController
         $this->tourTranslationClass = TourTranslation::class;
         $this->tourCategoryClass = TourCategory::class;
         $this->tourTermClass = TourTerm::class;
+        //$this->tourMetaClass = TourMeta::class;
         $this->attributesClass = Attributes::class;
         $this->locationClass = Location::class;
         $this->locationCategoryClass = LocationCategory::class;
@@ -189,7 +191,7 @@ class TourController extends AdminController
 
     public function store(Request $request, $id)
     {
-
+        //dd($request);
         if ($id > 0) {
             $this->checkPermission('tour_update');
             $row = $this->tourClass::find($id);
@@ -213,6 +215,13 @@ class TourController extends AdminController
         $row->default_state = $request->input('default_state', 1);
         $row->enable_service_fee = $request->input('enable_service_fee');
         $row->service_fee = $request->input('service_fee');
+       
+        //$row->enable_custom_fields = $request->input('enable_custom_fields');
+        //$row->custom_fields = $request->input('field_name');
+
+        //dd($request->input('field_name'));
+        //$row->service_fee = $request->input('service_fee');
+        
         $res = $row->saveOriginOrTranslation($request->input('lang'), true);
         if ($res) {
             if (!$request->input('lang') or is_default_lang($request->input('lang'))) {
