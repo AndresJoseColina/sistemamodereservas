@@ -15,8 +15,8 @@ class UpdateTourTable extends Migration
     {
         Schema::table('bravo_tour_dates', function (Blueprint $table) {
             
-            $table->string('departure_time')->nullable();
-            $table->string('return_time')->nullable();
+                $table->renameColumn('hroario_ida', 'departure_time');
+                $table->renameColumn('hroario_volta', 'return_time');
             
         });
     }
