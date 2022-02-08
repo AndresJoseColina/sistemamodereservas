@@ -138,7 +138,7 @@ class TourController extends AdminController
             'tour_category'     => $this->tourCategoryClass::where('status', 'publish')->get()->toTree(),
             'tour_location'     => $this->locationClass::where('status', 'publish')->get()->toTree(),
             'location_category' => $this->locationCategoryClass::where("status", "publish")->get(),
-            'translation'       => new $this->tourTranslationClass(),
+            'translation'       => new $this->tourTranslationClass(), 
             'breadcrumbs'       => [
                 [
                     'name' => __('Tours'),

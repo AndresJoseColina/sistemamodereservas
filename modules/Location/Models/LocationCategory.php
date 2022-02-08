@@ -9,7 +9,8 @@ class LocationCategory extends BaseModel
 {
     use SoftDeletes;
     use NodeTrait;
-    protected $table = 'location_category';
+    //protected $table = 'location_category';
+    protected $table = 'bravo_locations';
     protected $fillable = [
         'name',
         'content',

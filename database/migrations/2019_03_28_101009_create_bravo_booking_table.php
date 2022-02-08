@@ -78,6 +78,11 @@ class CreateBravoBookingTable extends Migration
             $table->string('status',30)->nullable();
             $table->text('logs')->nullable();
 
+            $table->string('code', 64)->nullable();
+            $table->bigInteger('object_id')->nullable();
+            $table->string('object_model', 40)->nullable();
+            $table->text('meta')->nullable();
+
             $table->integer('create_user')->nullable();
             $table->integer('update_user')->nullable();
 

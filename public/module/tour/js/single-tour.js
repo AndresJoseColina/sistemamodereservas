@@ -35,6 +35,7 @@
             departures:[],
             departure_time:undefined,
             return:[],
+            enable_return_time:false,
             step:1,
             guests:1,
             price:0,

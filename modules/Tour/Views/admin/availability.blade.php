@@ -84,20 +84,14 @@
                         </div>
                         <div class="col-md-12">
                             <div class="row" >
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label >{{__('Departure Time')}}</label>
                                         <select name="departure_time[]" id="departure_time" v-bind:multiple="form.departure_time" class="horario form-control" multiple="multiple" style="width: 100%" ></select>
                                         
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label >{{__('Return Time')}}</label>
-                                        <select name="return_time[]" id="return_time"  v-bind:multiple="form.return_time" class="horario form-control" multiple="multiple" style="width: 100%" ></select>
-                                        
-                                    </div>
-                                </div>
+                                
                             </div>
 
                         </div>
@@ -124,12 +118,46 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>                        
                         <div class="col-md-6" v-else>
                             <div class="form-group">
                                 <label >{{__('Price')}}</label>
                                 <input type="text" v-model="form.price" class="form-control">
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>
+                                    {{__('Enable Return Time?')}}
+                                    <input type="checkbox" id="enable_return_time" name="enable_return_time" v-model="enable_return_time" /> 
+                                </label>
+                            </div>
+                               <!-- ocultada esta condicion:  v-if="enable_return_time == 1" -->
+                            <div class="form-group-item"  >
+                                    <div class="form-group">
+                                        <label >{{__('Return Time')}}</label>
+                                        <select name="return_time[]" id="return_time"  v-bind:multiple="form.return_time" class="horario form-control" multiple="multiple" style="width: 100%" ></select>
+                                        
+                                    </div>
+                                    <div class="" v-if="person_types">
+                                        <div v-for="(type,index) in person_types">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label>{{__("Name")}}</label>
+                                                        <input type="text" readonly class="form-control" v-model="person_types[index].name">
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <label>{{__("Return Price")}}</label>
+                                                        <input type="text" v-model="person_types[index].returnPrice" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            
                         </div>
                     </form>
                     <div v-if="lastResponse.message">
@@ -230,12 +258,17 @@
 					var form = Object.assign({},info.event.extendedProps);
                     form.start_date = moment(info.event.start).format('YYYY-MM-DD');
                     form.end_date = moment(info.event.start).format('YYYY-MM-DD');
-                    //console.log(form);
-
 
                     $('.horario').val(null).trigger("change");
                     $('.horario').empty();
-                    
+
+                    if(form.enable_return_time == 1){
+                        $('#enable_return_time').prop('checked', true);
+                    }
+                    else{
+                        $('#enable_return_time').prop('checked', false);
+                    }
+                   
                     var time_list = getTimeList();
                     var departure_time = [];
                     var return_time = [];
@@ -332,7 +365,10 @@
                     min:'',
                     max:'',
                     price:'',
+                    returnPrice:''
                 },
+                enable_return_time: 0,
+                
                 onSubmit:false
             },
             methods:{
@@ -354,6 +390,7 @@
                             drp.setEndDate(moment(form.end_date).format(bookingCore.date_format));
                         }
                     }
+                    
                 },
                 hide:function () {
                     $(this.$el).modal('hide');
@@ -373,6 +410,16 @@
 
                     this.form.departure_time = $("#departure_time option:selected").map(function(){ return this.text }).get().join(", ");
                     this.form.return_time = $("#return_time option:selected").map(function(){ return this.text }).get().join(", ");
+
+                    //if(){
+                        this.form.enable_return_time = $("#enable_return_time").is(":checked") ? 1 : 0;
+                    //}else{
+                        //this.form.enable_return_time = 0;
+                    //}
+                    
+
+                    //console.log(  );
+                    //return;
 
                     $.ajax({
                         url:'{{route('tour.admin.availability.store')}}',

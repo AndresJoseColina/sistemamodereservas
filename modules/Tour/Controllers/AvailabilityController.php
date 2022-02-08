@@ -157,6 +157,14 @@ class AvailabilityController extends FrontendController
                 }
             }
             $allDates[date('Y-m-d', $i)] = $date;
+
+            // Enable return time
+            //dd($tour->meta->enable_return_time);
+            if (empty($tour->meta->enable_return_time)){
+                //dd($tour->meta);
+            }
+
+
         }
         if (!empty($rows)) {
             foreach ($rows as $row) {
@@ -189,6 +197,8 @@ class AvailabilityController extends FrontendController
                             $person['price'] = $date_person_types[$k]['price'] ?? $person['price'];
                             $person['max'] = $date_person_types[$k]['max'] ?? $person['max'];
                             $person['min'] = $date_person_types[$k]['min'] ?? $person['min'];
+
+                            $person['returnPrice'] = $date_person_types['returnPrice'] ?? isset($person['returnPrice']) ? $person['returnPrice'] : "";
                             if (!$is_single) {
                                 $c_title .= $person['name'] . ": " . format_money_main($person['price']) . "<br>";
                                 //for single
@@ -201,7 +211,7 @@ class AvailabilityController extends FrontendController
                             $person['number'] = $person['min'] ?? 0;
                         }
                         $row->title = $c_title;
-                    }
+                    } 
                 }
                 $row->person_types = $list_person_types;
                 if (!$row->active) {
@@ -325,6 +335,7 @@ class AvailabilityController extends FrontendController
             $postData['person_types'] = null;
         }
 
+        //dd($postData);
 //        for ($i = strtotime($request->input('start_date')); $i <= strtotime($request->input('end_date')); $i += DAY_IN_SECONDS) {
         $period = periodDate($request->input('start_date'),$request->input('end_date'));
         foreach ($period as $dt){
@@ -343,7 +354,8 @@ class AvailabilityController extends FrontendController
                 'departure_time',
                 'return_time',
                 'active',
-                'person_types'
+                'person_types',
+                'enable_return_time'
             ], $postData);
             $date->save();
         }

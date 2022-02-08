@@ -72,16 +72,14 @@
                 <label >{{__("Special Requirements")}} </label>
                 <textarea name="customer_notes" cols="30" rows="6" class="form-control" placeholder="{{__('Special Requirements')}}"></textarea>
             </div>
-            <?php
-            //dd($booking->service->meta->custom_fields);
-            ?>
+            
             @if($booking->service->meta->custom_fields)
                 <div class="col-md-12">
                     <br>
                     <label >{{__("Aditional required info")}} </label>
                     <br>
                     @foreach($booking->service->meta->custom_fields as $key)
-                        <input type="text" name="custom_fields_data[{{ $key['name'] }}][value]" value="" class="form-control" placeholder="{{ $key['name'].' is required' }}"><br>
+                        <input type="text" name="custom_fields_data[{{ $key['name'] }}][value]" value="" class="form-control" placeholder="{{ $key['name'] }}"><br>
                         
                     @endforeach
                     
