@@ -94,16 +94,20 @@
             @if($booking->total_guests > 1)
                 @for($i = 0; $i < $booking->total_guests; $i++)
                     @if($i == 0)
-                        
+<div class="col-md-12">
+    <br>
+    <br>
+            <h4 class="form-section-title">Dados dos participantes</h4>
+</div>
                         <div class="col-md-12">
                             <br>
-                            <label for="">{{__("Guest Name " . $i+1 )}}</label>
-                            <input type="text" class="form-control" value="{{$user->first_name.' '.$user->last_name ?? ''}}" name="guests{{$i}}" readonly="true">
+                            <label for="">{{__("Nome do participante " . $i+1 )}}</label>
+                            <input type="text" class="form-control" value="" name="guests{{$i}}" placeholder="{{__("Nombre Sobrenome...")}}">
                         </div>
                     @else
                         <div class="col-md-12">
-                            <label for="">{{__("Guest Name " . $i+1 )}} <span class="required">*</span></label>
-                            <input type="text" class="form-control" value="" name="guests{{$i}}" placeholder="{{__("Guest Name")}}">
+                            <label for="">{{__("Nome do participante " . $i+1 )}} <span class="required">*</span></label>
+                            <input type="text" class="form-control" value="" name="guests{{$i}}" placeholder="{{__("Nombre Sobrenome...")}}">
                         </div>
 
                     @endif
@@ -111,8 +115,8 @@
                 @endfor
             @else
                 <div class="col-md-12">
-                    <label for="">{{__("Guest Name 1")}}</label>
-                    <input type="text" class="form-control" value="{{$user->first_name.' '.$user->last_name ?? ''}}" name="guests0" readonly="true">
+                    <label for="">{{__("Nome do participante")}}</label>
+                    <input type="text" class="form-control" value="" name="guests0" placeholder="{{__("Nome do participante")}}">
                 </div>
             <input type="hidden" value="{{$booking->total_guests}}" name="total_guests">
             @endif
