@@ -72,20 +72,24 @@
                 <label >{{__("Special Requirements")}} </label>
                 <textarea name="customer_notes" cols="30" rows="6" class="form-control" placeholder="{{__('Special Requirements')}}"></textarea>
             </div>
-            
-            @if($booking->service->meta->custom_fields)
-                <div class="col-md-12">
-                    <br>
-                    <label >{{__("Aditional required info")}} </label>
-                    <br>
-                    @foreach($booking->service->meta->custom_fields as $key)
-                        <input type="text" name="custom_fields_data[{{ $key['name'] }}][value]" value="" class="form-control" placeholder="{{ $key['name'] }}"><br>
-                        
-                    @endforeach
-                    
-                </div>
-
+            @php
                 
+            @endphp
+            @if($booking->services != null)
+                @if($booking->service->meta->custom_fields)
+                    <div class="col-md-12">
+                        <br>
+                        <label >{{__("Aditional required info")}} </label>
+                        <br>
+                        @foreach($booking->service->meta->custom_fields as $key)
+                            <input type="text" name="custom_fields_data[{{ $key['name'] }}][value]" value="" class="form-control" placeholder="{{ $key['name'] }}"><br>
+                            
+                        @endforeach
+                        
+                    </div>
+
+                    
+                @endif
             @endif
             @if($booking->total_guests > 1)
                 @for($i = 0; $i < $booking->total_guests; $i++)

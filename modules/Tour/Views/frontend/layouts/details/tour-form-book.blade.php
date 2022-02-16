@@ -55,7 +55,6 @@
                             <div class="guest-wrapper d-flex justify-content-between align-items-center">
                                 <div class="flex-grow-1">
                                     <label>@{{type.name}}</label>
-                                    <label>@{{type.returnPrice}}</label>
                                     <div class="render check-in-render">@{{type.desc}}</div>
                                     <div class="render check-in-render">@{{type.display_price}} {{__("per person")}}</div>
                                 </div>
