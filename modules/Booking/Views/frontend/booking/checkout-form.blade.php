@@ -102,12 +102,12 @@
                         <div class="col-md-12">
                             <br>
                             <label for="">{{__("Nome do participante " . $i+1 )}}</label>
-                            <input type="text" class="form-control" value="" name="guests{{$i}}" placeholder="{{__("Nombre Sobrenome...")}}">
+                            <input type="text" class="form-control" value="" name="guests{{$i}}" placeholder="{{__("Nome Sobrenome...")}}">
                         </div>
                     @else
                         <div class="col-md-12">
                             <label for="">{{__("Nome do participante " . $i+1 )}} <span class="required">*</span></label>
-                            <input type="text" class="form-control" value="" name="guests{{$i}}" placeholder="{{__("Nombre Sobrenome...")}}">
+                            <input type="text" class="form-control" value="" name="guests{{$i}}" placeholder="{{__("Nome Sobrenome...")}}">
                         </div>
 
                     @endif
