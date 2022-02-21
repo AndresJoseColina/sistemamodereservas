@@ -144,8 +144,8 @@ class MediaController extends Controller
                 $fileObj->file_extension = $file->getClientOriginalExtension();
                 if (FileHelper::checkMimeIsImage($file->getMimeType())) {
                     list($width, $height, $type, $attr) = getimagesize(public_path("uploads/".$check));
-                    $fileObj->file_width = $width;
-                    $fileObj->file_height = $height;
+                    $fileObj->file_width = NULL;
+                    $fileObj->file_height = NULL;
                 }
                 $fileObj->save();
                 // Sizes use for uploaderAdapter:
