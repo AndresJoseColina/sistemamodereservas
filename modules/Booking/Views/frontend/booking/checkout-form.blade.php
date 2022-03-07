@@ -72,41 +72,45 @@
                 <label >{{__("Special Requirements")}} </label>
                 <textarea name="customer_notes" cols="30" rows="6" class="form-control" placeholder="{{__('Special Requirements')}}"></textarea>
             </div>
-            @php
-                
-            @endphp
-            @if($booking->services != null)
-                @if($booking->service->meta->custom_fields)
-                    <div class="col-md-12">
-                        <br>
-                        <label >{{__("Aditional required info")}} </label>
-                        <br>
-                        @foreach($booking->service->meta->custom_fields as $key)
-                            <input type="text" name="custom_fields_data[{{ $key['name'] }}][value]" value="" class="form-control" placeholder="{{ $key['name'] }}"><br>
-                            
-                        @endforeach
+            
+            <?php
+            //dd($booking->service->meta->custom_fields);
+            ?>
+            @if($booking->service->meta->custom_fields)
+                <div class="col-md-12">
+                    <br>
+                    <label >{{__("Aditional required info")}} </label>
+                    <br>
+                    @foreach($booking->service->meta->custom_fields as $key)
+                        <input type="text" name="custom_fields_data[{{ $key['name'] }}][value]" value="" class="form-control" placeholder="{{ $key['name'].' is required' }}"><br>
                         
-                    </div>
-
+                    @endforeach
                     
-                @endif
+                </div>
+
+                
             @endif
             @if($booking->total_guests > 1)
                 @for($i = 0; $i < $booking->total_guests; $i++)
+                @php
+                    $guest_number = $i + 1;
+                @endphp
+                
                     @if($i == 0)
-<div class="col-md-12">
-    <br>
-    <br>
-            <h4 class="form-section-title">Dados dos participantes</h4>
-</div>
                         <div class="col-md-12">
                             <br>
-                            <label for="">{{__("Nome do participante " . $i+1 )}}</label>
+                            <br>
+                            <h4 class="form-section-title">Dados dos participantes</h4>
+                        </div>
+                        <div class="col-md-12">
+                            
+                            <br>
+                            <label for="">{{__("Nome do participante ". $guest_number  )}}</label>
                             <input type="text" class="form-control" value="" name="guests{{$i}}" placeholder="{{__("Nome Sobrenome...")}}">
                         </div>
                     @else
                         <div class="col-md-12">
-                            <label for="">{{__("Nome do participante " . $i+1 )}} <span class="required">*</span></label>
+                            <label for="">{{__("Nome do participante ". $guest_number )}} <span class="required">*</span></label>
                             <input type="text" class="form-control" value="" name="guests{{$i}}" placeholder="{{__("Nome Sobrenome...")}}">
                         </div>
 
